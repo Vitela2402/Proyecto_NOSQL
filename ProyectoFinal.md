@@ -33,7 +33,7 @@ collection3.insert_many(response[0])
 ```
 
 
-## monetdb
+## Monetdb
 #### Objetivo Base Columnar
 El objetivo de esta base de datos columnar es poder facilitar la lectura, la vista, y búsqueda de la información que creímos más pertinente de la API que descargamos.
 
@@ -140,6 +140,22 @@ cypher-shell -u neo4j -p test
 
 
 #### Queries
+1)
+
+```SQL
+
+```
+
+2)
+```SQL
+
+```
+
+3)
+
+```SQL
+
+```
 
 
 ## Conclusion
