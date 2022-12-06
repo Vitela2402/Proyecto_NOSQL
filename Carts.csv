@@ -1,0 +1,8 @@
+c_v,c_id,date,id,products,userId
+0,638ecd6501f5b80b85d71ff8,2020-03-02T00:00:02.000Z,1,"[{""productId"":1,""quantity"":4},{""productId"":2,""quantity"":1},{""productId"":3,""quantity"":6}]",1
+0,638ecd6501f5b80b85d71ff9,2020-01-02T00:00:02.000Z,2,"[{""productId"":2,""quantity"":4},{""productId"":1,""quantity"":10},{""productId"":5,""quantity"":2}]",1
+0,638ecd6501f5b80b85d71ffa,2020-03-01T00:00:02.000Z,3,"[{""productId"":1,""quantity"":2},{""productId"":9,""quantity"":1}]",2
+0,638ecd6501f5b80b85d71ffb,2020-01-01T00:00:02.000Z,4,"[{""productId"":1,""quantity"":4}]",3
+0,638ecd6501f5b80b85d71ffc,2020-03-01T00:00:02.000Z,5,"[{""productId"":7,""quantity"":1},{""productId"":8,""quantity"":1}]",3
+0,638ecd6501f5b80b85d71ffd,2020-03-01T00:00:02.000Z,6,"[{""productId"":10,""quantity"":2},{""productId"":12,""quantity"":3}]",4
+0,638ecd6501f5b80b85d71ffe,2020-03-01T00:00:02.000Z,6,"[{""productId"":18,""quantity"":1}]",8
