@@ -143,7 +143,7 @@ SELECT category, count(*) as number FROM product WHERE category='men's clothing'
 ## Neo4j
 
 #### Importacion
-```SQL
+#+begin_src cypher
 Abrir http://localhost:7474/browser/
 
 LOAD CSV WITH HEADERS from "file:///Users.csv" as row create (n:users) set n =row 
@@ -153,19 +153,19 @@ LOAD CSV WITH HEADERS from "file:///Carts.csv" as row create (n:carts) set n =ro
 MATCH (u:users),(c:carts) WHERE u.id = c.userId CREATE (u)-[:addProducts]->(c)
 MATCH (c:carts),(p:products) WHERE c.products_id = p.id CREATE (c)-[:CONTAINS]->(p)
 
-```
+#+end_src
 #### Queries
 1) Cuál es el precio más alto de todos los productos:
-```SQL
+#+begin_src cypher
  match (p:products) return p.title as Titles, p.category as Categories, max(p.price) as max_price order by max_price desc
-```
+#+end_src
 2) La última fecha en la que agrego un producto al carrito cada usuario:
-```SQL
+#+begin_src cypher
  match (u:users)-[:addProducts]->(c:carts) return u.username as name, max(c.date) as max_ord_date order by max_ord_date
-```
+#+end_src
 3) Cuántos productos se agregaron al carrito por categoría:
 
-```SQL
+#+begin_src cypher
  match (p:products)<-[:ORDERS]-(c:carts) return p.category as name, count(c.products_id) as products_count order by p.category
-```
+#+end_src
 
