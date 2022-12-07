@@ -149,6 +149,4 @@ MATCH (c:carts),(p:products) WHERE c.products_id = p.id CREATE (c)-[:CONTAINS]->
 ```
 
 
-## Conclusion
 
-PURA EXPLICACION
