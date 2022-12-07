@@ -6,7 +6,6 @@ Authors: Yul Padilla, Pablo Vitela, Juan Manuel Ambriz
 ## API
 
 ### Importación del API 
-.
 
 ```python
 # Guardar ProyectStoreApi.py o copiar los siguiente 
@@ -41,18 +40,17 @@ collection3.insert_many(response[0])
 #### Queries Mongodb
 
 1) A través del products_id nos dice, con count, cuántos hay de cada producto y lo contabiliza en sum:
-```
+```SQL
   db.Carts.aggregate( [ { $group: { "_id": "$products",  count: { $sum:1 } } }]);
 ```
 
 2) Cuántas veces se agregó al carrito cada producto:
-```
+```SQL
  db.Carts.aggregate([ { $unwind: '$products' }, { $project: { _id: 0, "products.productId": 1, 'products.quantity': 1 } }, { $group: { _id: "$products" } }]);
 ```
 
 3) Da información de usuario por pedido:
-```
-
+```SQL
 db.Carts.aggregate([{$lookup: {from: "Users", localField: "userId",  foreignField: "id", as: "UserInfo"}} ])
 ```
 
@@ -63,7 +61,7 @@ El objetivo de esta base de datos columnar es poder facilitar la lectura, la vis
 #### Importacion
 
 
-```
+```SQL
 docker exec monetdb monetdb create -p monetdb ProyectStore
 docker exec -it monetdb  mclient -u monetdb -d ProyectStore
 
@@ -121,23 +119,19 @@ copy offset 2 into Products from '/path/to/my/Products.csv' on client using deli
 
 1) Cuál es el producto más caro:
 
-
-```
+```SQL
 SELECT price, count(*) as number FROM product GROUP BY product, price LIMIT 10;
 ```
 
-
-
 2) Cuál es el producto con más rating count:
 
-```
+```SQL
 SELECT rating_count, count(*) as number FROM product GROUP BY rating_count LIMIT 10;
 ```
 
 3) Cuántos productos son para hombres:
 
-
-```
+```SQL
 SELECT category, count(*) as number FROM product WHERE category='men's clothing' GROUP BY category;
 ```
 
@@ -145,7 +139,8 @@ SELECT category, count(*) as number FROM product WHERE category='men's clothing'
 ## Neo4j
 
 #### Importacion
-```
+
+```SQL
 Abrir http://localhost:7474/browser/
 
 LOAD CSV WITH HEADERS from "file:///Users.csv" as row create (n:users) set n =row 
@@ -158,16 +153,16 @@ MATCH (c:carts),(p:products) WHERE c.products_id = p.id CREATE (c)-[:CONTAINS]->
 
 #### Queries
 1) Cuál es el precio más alto de todos los productos:
-```
+```SQL
  match (p:products) return p.title as Titles, p.category as Categories, max(p.price) as max_price order by max_price desc
 ```
 2) La última fecha en la que agrego un producto al carrito cada usuario:
-```
+```SQL
  match (u:users)-[:addProducts]->(c:carts) return u.username as name, max(c.date) as max_ord_date order by max_ord_date
 ```
 3) Cuántos productos se agregaron al carrito por categoría:
 
-```
+``` SQL
  match (p:products)<-[:ORDERS]-(c:carts) return p.category as name, count(c.products_id) as products_count order by p.category
 ```
 
