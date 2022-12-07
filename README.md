@@ -143,7 +143,7 @@ SELECT category, count(*) as number FROM product WHERE category='men's clothing'
 ## Neo4j
 
 #### Importacion
-```SQL
+```cyphre
 Abrir http://localhost:7474/browser/
 
 LOAD CSV WITH HEADERS from "file:///Users.csv" as row create (n:users) set n =row 
