@@ -38,7 +38,7 @@ collection3.insert_many(response[0])
 
 ## Monetdb
 #### Objetivo Base Columnar
-El objetivo de esta base de datos columnar es poder facilitar la lectura, la vista, y búsqueda de la información que creímos más pertinente de la API que descargamos.
+El objetivo de esta base de datos columnar es poder facilitar la lectura, la vista, y búsqueda de la información de la API que descargamos.
 
 #### Importacion
 
