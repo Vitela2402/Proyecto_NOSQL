@@ -114,33 +114,26 @@ copy offset 2 into Products from '/path/to/my/Products.csv' on client using deli
 ```
 #### Queries
 
-1) Cual es el producto más caro
+1) Cuál es el producto más caro:
 
 ```SQL
 
-SELECT price, count(*) as number
- FROM product
- GROUP BY product, price
- LIMIT 1;
+SELECT price, count(*) as number FROM product GROUP BY product, price LIMIT 10;
+
 
 ```
 
-2) Cuales son las categorias?
+2) Cuál es el producto con más rating count:
 ```SQL
 
-SELECT * category
-FROM product
-GROUP BY category;
+SELECT rating_count, count(*) as number FROM product GROUP BY rating_count LIMIT 10;
 ```
 
-3) Cuantos productos hay?
+3) Cuántos productos son para hombres:
 
 ```SQL
 
-
-SELECT id, count(*) as number
-FROM product
-GROUP BY id;
+SELECT category, count(*) as number FROM product WHERE category='men's clothing' GROUP BY category;
 
 ```
 
