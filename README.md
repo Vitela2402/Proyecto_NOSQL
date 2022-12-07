@@ -39,18 +39,19 @@ collection3.insert_many(response[0])
 
 ```
 #### Queries Mongodb
+```
 1) A través del products_id nos dice, con count, cuántos hay de cada producto y lo contabiliza en sum:
 
   db.Carts.aggregate( [ { $group: { "_id": "$products",  count: { $sum:1 } } }]);
-
-
+```
+```
 2) Cuántas veces se agregó al carrito cada producto:
 
  db.Carts.aggregate([ { $unwind: '$products' }, { $project: { _id: 0, "products.productId": 1, 'products.quantity': 1 } }, { $group: { _id: "$products" } }]);
-
-
+```
+```
 3) Da información de usuario por pedido:
-
+```
 
 db.Carts.aggregate([{$lookup: {from: "Users", localField: "userId",  foreignField: "id", as: "UserInfo"}} ])
 
@@ -62,7 +63,7 @@ El objetivo de esta base de datos columnar es poder facilitar la lectura, la vis
 #### Importacion
 
 
-
+```
 docker exec monetdb monetdb create -p monetdb ProyectStore
 docker exec -it monetdb  mclient -u monetdb -d ProyectStore
 
@@ -115,32 +116,32 @@ title varchar(300)
 copy offset 2 into Users from '/path/to/my/Users.csv' on client using delimiters ',',E'\n',E'\"' null as ' ';
 copy offset 2 into Carts from '/path/to/my/Carts.csv' on client using delimiters ',',E'\n',E'\"' null as ' ';
 copy offset 2 into Products from '/path/to/my/Products.csv' on client using delimiters ',',E'\n',E'\"' null as ' ';
-
+```
 #### Queries
 
 1) Cuál es el producto más caro:
 
 
-
+```
 SELECT price, count(*) as number FROM product GROUP BY product, price LIMIT 10;
-
+```
 
 
 
 2) Cuál es el producto con más rating count:
 
-
+```
 SELECT rating_count, count(*) as number FROM product GROUP BY rating_count LIMIT 10;
-
+```
 
 3) Cuántos productos son para hombres:
 
 
-
+```
 SELECT category, count(*) as number FROM product WHERE category='men's clothing' GROUP BY category;
+```
 
-
-
+```
 ## Neo4j
 
 #### Importacion
@@ -153,20 +154,20 @@ LOAD CSV WITH HEADERS from "file:///Carts.csv" as row create (n:carts) set n =ro
 
 MATCH (u:users),(c:carts) WHERE u.id = c.userId CREATE (u)-[:addProducts]->(c)
 MATCH (c:carts),(p:products) WHERE c.products_id = p.id CREATE (c)-[:CONTAINS]->(p)
-
+```
 
 #### Queries
 1) Cuál es el precio más alto de todos los productos:
-
+```
  match (p:products) return p.title as Titles, p.category as Categories, max(p.price) as max_price order by max_price desc
-
+```
 2) La última fecha en la que agrego un producto al carrito cada usuario:
-
+```
  match (u:users)-[:addProducts]->(c:carts) return u.username as name, max(c.date) as max_ord_date order by max_ord_date
-
+```
 3) Cuántos productos se agregaron al carrito por categoría:
 
-
+```
  match (p:products)<-[:ORDERS]-(c:carts) return p.category as name, count(c.products_id) as products_count order by p.category
-
+```
 
