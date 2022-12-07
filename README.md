@@ -5,7 +5,8 @@ Authors: Yul Padilla, Pablo Vitela, Juan Manuel Ambriz
 
 ## API
 
-### Importación del API
+### Importación del API 
+.
 
 ```python
 # Guardar ProyectStoreApi.py o copiar los siguiente 
