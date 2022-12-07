@@ -5,6 +5,8 @@
 ### Importación del API
 
 ```python
+# Guardar ProyectStoreApi.py o copiar los siguiente 
+
 import requests
 import pymongo
 
@@ -30,6 +32,7 @@ response.append(requests.get(url="https://fakestoreapi.com/products", headers={'
 response[0] = response[0].json()
 print(response[0])
 collection3.insert_many(response[0])
+
 ```
 
 
@@ -40,6 +43,7 @@ El objetivo de esta base de datos columnar es poder facilitar la lectura, la vis
 #### Importacion
 
 ```
+
 docker exec monetdb monetdb create -p monetdb ProyectStore
 docker exec -it monetdb  mclient -u monetdb -d ProyectStore
 
@@ -69,8 +73,10 @@ username varchar(200));
 CREATE TABLE carts (
 c_v numeric (10), 
 c_id varchar (200), 
-date date, id int, 
-products varchar (200), 
+date date, 
+num int, 
+products_id int,
+quantity int, 
 userid int);
 
 CREATE TABLE products(
@@ -85,9 +91,11 @@ rating_rate double,
 title varchar(300)
 );
 
-COPY INTO users FROM 'Users.csv' ON CLIENT USING DELIMITERS ',', E'\n', '';
-COPY INTO carts FROM 'Carts.csv' ON CLIENT USING DELIMITERS ',', E'\n', '';
-COPY INTO products FROM 'Products.csv' ON CLIENT USING DELIMITERS ',', E'\n', '';
+# CAMBIAR PATH
+
+copy offset 2 into Users from '/path/to/my/Users.csv' on client using delimiters ',',E'\n',E'\"' null as ' ';
+copy offset 2 into Carts from '/path/to/my/Carts.csv' on client using delimiters ',',E'\n',E'\"' null as ' ';
+copy offset 2 into Products from '/path/to/my/Products.csv' on client using delimiters ',',E'\n',E'\"' null as ' ';
 ```
 #### Queries
 
@@ -111,32 +119,14 @@ COPY INTO products FROM 'Products.csv' ON CLIENT USING DELIMITERS ',', E'\n', ''
 ## Neo4j
 
 #### Importacion
-.....Parar, en docker, los containers que ocupen los puertos 7474 o 7687.....
-docker run \
-    -p 7474:7474 -p 7687:7687 \
-    -v $PWD/data:/data -v $PWD/plugins:/plugins \
-    --name neo4j-apoc \
-    -e NEO4J_apoc_export_file_enabled=true \
-    -e NEO4J_apoc_import_file_enabled=true \
-    -e NEO4J_apoc_import_file_use__neo4j__config=true \
-    -e NEO4JLABS_PLUGINS=\[\"apoc\"\] \
-    neo4j:4.0
+# Abrir http://localhost:7474/browser/
 
-.....Abrir navegador y poner la siguiente liga.....
-http://localhost:7474/browser/
+LOAD CSV WITH HEADERS from "file:///Users.csv" as row create (n:users) set n =row 
+LOAD CSV WITH HEADERS from "file:///Products.csv" as row create (n:products) set n =row
+LOAD CSV WITH HEADERS from "file:///Carts.csv" as row create (n:carts) set n =row 
 
-.....Clave y usuario para iniciar sesión.....
-neo4j
-
-.....Cargar api en neo4j.....
-CALL apoc.load.json("http://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline");
-
-
-
-
-.......para entrar a terminal neo4j......
-docker exec -it testneo4j bash
-cypher-shell -u neo4j -p test
+MATCH (u:users),(c:carts) WHERE u.id = c.userId CREATE (u)-[:addProducts]->(c)
+MATCH (c:carts),(p:products) WHERE c.products_id = p.id CREATE (c)-[:CONTAINS]->(p)
 
 
 #### Queries
