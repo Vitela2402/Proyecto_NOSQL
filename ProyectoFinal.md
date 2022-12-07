@@ -119,7 +119,8 @@ copy offset 2 into Products from '/path/to/my/Products.csv' on client using deli
 ## Neo4j
 
 #### Importacion
-# Abrir http://localhost:7474/browser/
+```
+Abrir http://localhost:7474/browser/
 
 LOAD CSV WITH HEADERS from "file:///Users.csv" as row create (n:users) set n =row 
 LOAD CSV WITH HEADERS from "file:///Products.csv" as row create (n:products) set n =row
@@ -128,7 +129,7 @@ LOAD CSV WITH HEADERS from "file:///Carts.csv" as row create (n:carts) set n =ro
 MATCH (u:users),(c:carts) WHERE u.id = c.userId CREATE (u)-[:addProducts]->(c)
 MATCH (c:carts),(p:products) WHERE c.products_id = p.id CREATE (c)-[:CONTAINS]->(p)
 
-
+```
 #### Queries
 1)
 
