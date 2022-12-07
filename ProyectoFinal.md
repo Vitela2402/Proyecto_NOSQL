@@ -102,17 +102,30 @@ copy offset 2 into Products from '/path/to/my/Products.csv' on client using deli
 1)
 
 ```SQL
+Cual es el producto más caro
+SELECT price, count(*) as number
+ FROM product
+ GROUP BY product, price
+ LIMIT 1;
 
 ```
 
 2)
 ```SQL
-
+Cuales son las categorias?
+SELECT * category
+FROM product
+GROUP BY category;
 ```
 
 3)
 
 ```SQL
+
+Cuantos productos hay?
+SELECT id, count(*) as number
+FROM product
+GROUP BY id;
 
 ```
 
