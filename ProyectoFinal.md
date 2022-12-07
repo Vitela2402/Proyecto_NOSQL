@@ -34,7 +34,22 @@ print(response[0])
 collection3.insert_many(response[0])
 
 ```
+#### Queries Mongodb
+1) A través del products_id nos dice, con count, cuántos hay de cada producto y lo contabiliza en sum:
+```SQL
+  db.Carts.aggregate( [ { $group: { "_id": "$products",  count: { $sum:1 } } }]);
 
+```
+2) Cuántas veces se agregó al carrito cada producto:
+```SQL
+ db.Carts.aggregate([ { $unwind: '$products' }, { $project: { _id: 0, "products.productId": 1, 'products.quantity': 1 } }, { $group: { _id: "$products" } }]);
+
+```
+3) Da información de usuario por pedido:
+
+```SQL
+db.Carts.aggregate([{$lookup: {from: "Users", localField: "userId",  foreignField: "id", as: "UserInfo"}} ])
+```
 
 ## Monetdb
 #### Objetivo Base Columnar
@@ -99,10 +114,10 @@ copy offset 2 into Products from '/path/to/my/Products.csv' on client using deli
 ```
 #### Queries
 
-1)
+1) Cual es el producto más caro
 
 ```SQL
-Cual es el producto más caro
+
 SELECT price, count(*) as number
  FROM product
  GROUP BY product, price
@@ -110,19 +125,19 @@ SELECT price, count(*) as number
 
 ```
 
-2)
+2) Cuales son las categorias?
 ```SQL
-Cuales son las categorias?
+
 SELECT * category
 FROM product
 GROUP BY category;
 ```
 
-3)
+3) Cuantos productos hay?
 
 ```SQL
 
-Cuantos productos hay?
+
 SELECT id, count(*) as number
 FROM product
 GROUP BY id;
@@ -144,21 +159,18 @@ MATCH (c:carts),(p:products) WHERE c.products_id = p.id CREATE (c)-[:CONTAINS]->
 
 ```
 #### Queries
-1)
-
+1) Cuál es el precio más alto de todos los productos:
 ```SQL
-
+ match (p:products) return p.title as Titles, p.category as Categories, max(p.price) as max_price order by max_price desc
 ```
-
-2)
+2) La última fecha en la que agrego un producto al carrito cada usuario:
 ```SQL
-
+ match (u:users)-[:addProducts]->(c:carts) return u.username as name, max(c.date) as max_ord_date order by max_ord_date
 ```
-
-3)
+3) Cuántos productos se agregaron al carrito por categoría:
 
 ```SQL
-
+ match (p:products)<-[:ORDERS]-(c:carts) return p.category as name, count(c.products_id) as products_count order by p.category
 ```
 
 
