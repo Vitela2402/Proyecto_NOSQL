@@ -60,7 +60,7 @@ El objetivo de esta base de datos columnar es poder facilitar la lectura, la vis
 
 #### Importacion
 
-```
+```SQL
 
 docker exec monetdb monetdb create -p monetdb ProyectStore
 docker exec -it monetdb  mclient -u monetdb -d ProyectStore
