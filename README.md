@@ -39,22 +39,22 @@ collection3.insert_many(response[0])
 
 ```
 #### Queries Mongodb
-```
-1) A través del products_id nos dice, con count, cuántos hay de cada producto y lo contabiliza en sum:
 
+1) A través del products_id nos dice, con count, cuántos hay de cada producto y lo contabiliza en sum:
+```
   db.Carts.aggregate( [ { $group: { "_id": "$products",  count: { $sum:1 } } }]);
 ```
-```
-2) Cuántas veces se agregó al carrito cada producto:
 
+2) Cuántas veces se agregó al carrito cada producto:
+```
  db.Carts.aggregate([ { $unwind: '$products' }, { $project: { _id: 0, "products.productId": 1, 'products.quantity': 1 } }, { $group: { _id: "$products" } }]);
 ```
-```
+
 3) Da información de usuario por pedido:
 ```
 
 db.Carts.aggregate([{$lookup: {from: "Users", localField: "userId",  foreignField: "id", as: "UserInfo"}} ])
-
+```
 
 ## Monetdb
 #### Objetivo Base Columnar
